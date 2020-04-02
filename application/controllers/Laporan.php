@@ -11,22 +11,6 @@ class Laporan extends CI_Controller
         $this->load->model('Employee_mods', 'modsEmployee');
     }
 
-    public function absensi() 
-    {
-        $data['title'] = 'Absensi';
-        $data['bc'] = $this->modul->getBreadcrumb($data['title']);
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('name')])->row_array();
-        
-        $data['pegawai'] = $this->modsEmployee->getUserData($data['user']['nip_pegawai']);
-        $data['absensi'] = $this->modsEmployee->getLaporan($data['user']['nip_pegawai']);
-        
-        $this->load->view('templates/header', $data); // untuk memanggil template header
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('laporan/absensi', $data);
-        $this->load->view('templates/footer', $data);
-    }
-
     public function list() 
     {
         $data['title'] = 'List Laporan';
@@ -63,11 +47,17 @@ class Laporan extends CI_Controller
             $this->load->view('templates/footer', $data);
         }
         else {
+            if ($data['pegawai']['level'] == 1){
+                $status = '2';
+            } else {
+                $status = '1';
+            }
+
             $data = [
                 'user_id' => $data['user']['id'],
                 'nip_pegawai' => $data['pegawai']['nip_pegawai'],
                 'kehadiran' => 'Hadir',
-                'status_laporan' => '1',
+                'status_laporan' => $status,
                 'reg_ts' => date('Y-m-d H:i:s'),
                 'judul_kegiatan' => $this->input->post('judul'),
                 'uraian_kegiatan' => $this->input->post('uraiankegiatan'),

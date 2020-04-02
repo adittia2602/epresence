@@ -106,12 +106,16 @@
                                 ?>
                                 <div class="col-12 badge badge-<?= $badge;?> mt-5">  
                                     <?php 
+                                        $CI =& get_instance();
+                                        $this->load->model('Employee_mods', 'modsEmployee');
+                                        $approval = $this->modsEmployee->getUserData($sm['approval_by']);
+
                                         if ($sm['status_laporan'] === '1') 
                                             { echo 'Menunggu Approval'; }
                                         else if ($sm['status_laporan'] === '2') 
-                                            { echo 'Disetujui pada tanggal : '.$sm['approval_ts']; }
+                                            { echo 'Disetujui '.$approval['nama_pegawai'].' pada tanggal : '.$sm['approval_ts']; }
                                         else if ($sm['status_laporan'] === '0') 
-                                            { echo 'Ditolak pada tanggal : '.$sm['approval_ts']; }  
+                                            { echo 'Ditolak '.$approval['nama_pegawai'].' pada tanggal : '.$sm['approval_ts']; }  
                                     ?>
                                 </div>
                                 <?php  endif;?>
