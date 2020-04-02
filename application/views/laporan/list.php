@@ -38,7 +38,7 @@
                                             <td class="text-center">
                                             <?= $i ?>
                                             </td>
-                                            <td><?= $a['clockin'] ?></td>
+                                            <td><?= $a['reg_ts'] ?></td>
                                             <td><?= $a['kondisi_kesehatan']; ?></td>
                                             <td><?= $a['judul_kegiatan']; ?></td>
 
@@ -84,7 +84,7 @@
             <div class="modal-dialog  modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="viewLaporanTitle">Laporan Kegiatan : <?= $sm['clockin']?></h5>
+                        <h5 class="modal-title" id="viewLaporanTitle">Laporan Kegiatan : <?= $sm['reg_ts']?></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

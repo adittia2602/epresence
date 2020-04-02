@@ -68,7 +68,7 @@ class Laporan extends CI_Controller
                 'nip_pegawai' => $data['pegawai']['nip_pegawai'],
                 'kehadiran' => 'Hadir',
                 'status_laporan' => '1',
-                'clockin' => date('Y-m-d H:i:s'),
+                'reg_ts' => date('Y-m-d H:i:s'),
                 'judul_kegiatan' => $this->input->post('judul'),
                 'uraian_kegiatan' => $this->input->post('uraiankegiatan'),
                 'kondisi_kesehatan' => $this->input->post('kondisi'),
@@ -154,7 +154,6 @@ class Laporan extends CI_Controller
             </div>');
         }
         redirect('laporan/approval');
-        
     }
     
 }

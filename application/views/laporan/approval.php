@@ -48,7 +48,7 @@
                                             <td class="text-center">
                                             <?= $i ?>
                                             </td>
-                                            <td><?= $a['clockin']; ?></td>
+                                            <td><?= $a['reg_ts']; ?></td>
                                             <?php if ($pegawai['level'] === '1' || $pegawai['level'] === '2') : ?>
                                                 <?php if ($pegawai['level'] === '1') : ?>
                                                 <td><?= $a['direktorat']; ?></td>
@@ -106,7 +106,7 @@
                             <div class="row mb-5">
                                 <div class="col-3 text-left"> Nama </div>  <div class="col-8 text-left">: <b><?= $sm['nama_pegawai']?></b> </div>
                                 <div class="col-3 text-left"> Jabatan </div>  <div class="col-8 text-left">:  <?= $sm ['divisi']?></div>
-                                <div class="col-3 text-left"> Waktu Pelaporan </div>  <div class="col-8 text-left">: <?= $sm['clockin']?> </div>
+                                <div class="col-3 text-left"> Waktu Pelaporan </div>  <div class="col-8 text-left">: <?= $sm['reg_ts']?> </div>
                                 <div class="col-3 text-left"> Status </div>   
                                     <?php 
                                         if ($sm['status_laporan'] === '1') 

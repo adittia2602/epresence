@@ -29,7 +29,7 @@
                                             <td class="text-center">
                                             <?= $i ?>
                                             </td>
-                                            <td><?= $a['clockin'] ?></td>
+                                            <td><?= $a['reg_ts'] ?></td>
                                             <td><?= $a['kehadiran']; ?></td>
                                             <td><?= $a['kondisi_kesehatan']; ?></td>
                                         </tr>
