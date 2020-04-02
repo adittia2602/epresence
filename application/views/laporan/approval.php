@@ -1,5 +1,14 @@
-        <div class="section-body">
-          <h2 class="section-title"> Daftar Laporan WFH : <?=$pegawai['nama_pegawai'];?> </h2>
+<div class="section-body">
+          <h2 class="section-title"> Daftar Laporan WFH  
+                <?php 
+                    if ($pegawai['level'] === '1')
+                    { echo "Pegawai Pusat Investasi Pemerintah";}
+                    else if ($pegawai['level'] === '2')
+                    { echo $pegawai['direktorat'];}
+                    else 
+                    { echo "Divisi: ".$pegawai['divisi']; }
+                ?> 
+          </h2>
           <p class="section-lead"> </p>
             <?php if (validation_errors()) : ?>
                 <div class="alert alert-danger" role="alert ">
@@ -12,9 +21,6 @@
                     <div class="card">
                         
                         <div class="card-body">
-                            <div class="d-flex justify-content-end">
-                                <a href="<?= base_url("wfh/input");?>" class="btn btn-primary">Input Kegiatan WFH</a>
-                            </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable">
                                     <thead>
@@ -23,6 +29,13 @@
                                             #
                                             </th>
                                             <th>TANGGAL</th>
+                                            <?php if ($pegawai['level'] === '1' || $pegawai['level'] === '2') : ?>
+                                            <?php if ($pegawai['level'] === '1') : ?>
+                                                <th>DIREKTORAT</th>
+                                                <?php endif;?>
+                                            <th>DIVISI</th>
+                                            <?php endif;?>
+                                            <th>NAMA PEGAWAI</th>
                                             <th>KONDISI KESEHATAN</th>
                                             <th>JUDUL KEGIATAN</th>
                                             <th>STATUS</th>
@@ -35,7 +48,14 @@
                                             <td class="text-center">
                                             <?= $i ?>
                                             </td>
-                                            <td><?= $a['clockin'] ?></td>
+                                            <td><?= $a['clockin']; ?></td>
+                                            <?php if ($pegawai['level'] === '1' || $pegawai['level'] === '2') : ?>
+                                                <?php if ($pegawai['level'] === '1') : ?>
+                                                <td><?= $a['direktorat']; ?></td>
+                                                <?php endif;?>
+                                            <td><?= $a['divisi']; ?></td>
+                                            <?php endif;?>
+                                            <td><?= $a['nama_pegawai']; ?></td>
                                             <td><?= $a['kondisi_kesehatan']; ?></td>
                                             <td><?= $a['judul_kegiatan']; ?></td>
                                             <td>
@@ -77,41 +97,57 @@
             <div class="modal-dialog  modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="viewLaporanTitle">Laporan Kegiatan : <?= $sm['clockin']?></h5>
+                        <h5 class="modal-title" id="viewLaporanTitle">Laporan Kegiatan </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                         <div class="modal-body">
-                            
                             <div class="row mb-5">
-                                <div class="col-3 text-left"> Nama </div>  <div class="col-8 text-left">: <b><?= $pegawai['nama_pegawai']?></b> </div>
-                                <div class="col-3 text-left"> NIP </div>  <div class="col-8 text-left">: <b><?= $pegawai['nip_pegawai']?></b> </div>
-                                <div class="col-3 text-left"> Jabatan </div>  <div class="col-8 text-left">: <?= $pegawai['nama_jabatan']?> - Divisi <?= $pegawai['divisi']?> </div>
-                                <?php 
-                                    if ($sm['status_laporan'] === '1') 
-                                        { $badge =  'warning'; }
-                                    else if ($sm['status_laporan'] === '2') 
-                                        { $badge =  'success'; }
-                                    else if ($sm['status_laporan'] === '0') 
-                                        { $badge =  'danger'; } 
-                                ?>
-                                <div class="col-12 badge badge-<?= $badge;?> mt-5">  
+                                <div class="col-3 text-left"> Nama </div>  <div class="col-8 text-left">: <b><?= $sm['nama_pegawai']?></b> </div>
+                                <div class="col-3 text-left"> Jabatan </div>  <div class="col-8 text-left">:  <?= $sm ['divisi']?></div>
+                                <div class="col-3 text-left"> Waktu Pelaporan </div>  <div class="col-8 text-left">: <?= $sm['clockin']?> </div>
+                                <div class="col-3 text-left"> Status </div>   
                                     <?php 
                                         if ($sm['status_laporan'] === '1') 
-                                            { echo 'Menunggu Approval'; }
+                                            { $badge =  'warning'; }
                                         else if ($sm['status_laporan'] === '2') 
-                                            { echo 'Disetujui pada tanggal : '.$sm['approval_ts']; }
+                                            { $badge =  'success'; }
                                         else if ($sm['status_laporan'] === '0') 
-                                            { echo 'Ditolak pada tanggal : '.$sm['approval_ts']; }  
+                                            { $badge =  'danger'; } 
                                     ?>
-                                </div>
+                                    <div class="col-8 badge badge-<?= $badge;?>">  
+                                        <?php 
+                                            if ($sm['status_laporan'] === '1') 
+                                                { echo 'Menunggu Approval'; }
+                                            else if ($sm['status_laporan'] === '2') 
+                                                { echo 'Disetujui'; }
+                                            else if ($sm['status_laporan'] === '0') 
+                                                { echo 'Ditolak'; }  
+                                        ?>
+                                    </div>
                             </div>
+
+                            <?php $lvpelaksana = (int)$sm['level'] - 1; $lvatasan = (int)$pegawai['level']; 
+                                if ( $lvatasan === $lvpelaksana && $sm['status_laporan'] === '1') :
+                            ?>
+                                <form method="POST" action="<?php echo base_url('laporan/approveLaporan/'.$sm['id'].'/'.$pegawai['nip_pegawai']); ?>">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" name='approve'>
+                                            Approve
+                                        </button>
+                                        <button type="submit" class="btn btn-danger btn-lg btn-block" name='reject'>
+                                            Reject
+                                        </button>
+                                    </div>
+                                    
+                                </form>
+                            <?php endif; ?>
+
                             
                             <div class="form-group ">
                                 <label class="control-label" for="kondisi">Kondisi Kesehatan : </label>
                                 <input id="uraiankondisi" type="text" class="form-control" name="uraiankondisi" value="<?= $sm['kondisi_kesehatan'];?>" disabled>
-                                
                             </div>
 
                             <div class="form-group">
@@ -126,9 +162,8 @@
 
                             <div class="form-group">
                                 <label for="uraiankegiatan">Uraian Kegiatan :  </label>
-                                <textarea class="form-control" id="uraiankegiatan" name="uraiankegiatan" rows="30" style="height: 500px;" disabled><?= $sm['uraian_kegiatan'];?></textarea>
+                                <textarea class="form-control" id="uraiankegiatan" name="uraiankegiatan" rows="30" style="height: 300px;" disabled><?= $sm['uraian_kegiatan'];?></textarea>
                             </div>
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

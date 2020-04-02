@@ -11,7 +11,7 @@
                         </div>
                         <div class="card-body">
                             <div class="col-md-8">
-                                <form method="POST" action="<?php echo base_url('wfh/input'); ?>">
+                                <form method="POST" action="<?php echo base_url('laporan/input'); ?>">
                                     <div class="row mb-5">
                                         <div class="col-3 text-left"> Nama </div>  <div class="col-8 text-left">: <b><?= $pegawai['nama_pegawai']?></b> </div>
                                         <div class="col-3 text-left"> NIP </div>  <div class="col-8 text-left">: <b><?= $pegawai['nip_pegawai']?></b> </div>

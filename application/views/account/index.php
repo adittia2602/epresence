@@ -1,4 +1,4 @@
-          <div class="section-body">
+<div class="section-body">
           <h2 class="section-title">Your <?= $title ?> Info </h2>
 
             <?php if (validation_errors()) : ?>
@@ -14,7 +14,7 @@
                     <div class="author-box-left">
                       <img alt="image" src="<?= base_url("assets/")?>/img/avatar/avatar-1.png" class="rounded-circle author-box-picture">
                       <div class="clearfix"></div>
-                      <a href="<?= base_url('account/edit');?>" class="btn btn-primary mt-3" >Edit User</a>
+                      <!-- <a href="<?= base_url('account/edit');?>" class="btn btn-primary mt-3" >Edit User</a> -->
                     </div>
                     <div class="author-box-details">
                       <div class="author-box-name">
@@ -26,14 +26,27 @@
                           Nama
                         </div> :
                         <div class="col-8 col-sm-12 col-lg-8">
-                          <?= $user['fullname']?>
+                          <?= $pegawai['nama_pegawai']?>
                         </div>
                         <div class="col-3 col-sm-12 col-lg-3">
-                          Email 
+                          NIP 
                         </div> :
                         <div class="col-8 col-sm-12 col-lg-8">
-                          <?= $user['email']?>
-                        </div>    
+                          <?= $pegawai['nip_pegawai']?>
+                        </div>
+                        <div class="col-3 col-sm-12 col-lg-3">
+                          Direktorat 
+                        </div> :
+                        <div class="col-8 col-sm-12 col-lg-8">
+                          <?= $pegawai['direktorat']?>
+                        </div> 
+                        <div class="col-3 col-sm-12 col-lg-3">
+                          Divisi 
+                        </div> :
+                        <div class="col-8 col-sm-12 col-lg-8">
+                          <?= $pegawai['divisi']?>
+                        </div> 
+                             
                       </div>
                     </div>
                   </div>

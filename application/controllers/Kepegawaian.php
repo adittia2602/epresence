@@ -8,7 +8,7 @@ class Kepegawaian extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->model('Basic_mods', 'modul');
-        $this->load->model('Employee_mods', 'dbEMployee');
+        $this->load->model('Employee_mods', 'modsEmployee');
     }
 
     public function index()
@@ -18,7 +18,7 @@ class Kepegawaian extends CI_Controller
         $data['bc'] = $this->modul->getBreadcrumb($data['title']);
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('name')])->row_array();
         
-        $data['pegawai'] = $this->dbEMployee->getAllPegawai();
+        $data['pegawai'] = $this->modsEmployee->getDataPegawai($data['user']['nip_pegawai']);
 
         $this->load->view('templates/header', $data); // untuk memanggil template header
         $this->load->view('templates/sidebar', $data);

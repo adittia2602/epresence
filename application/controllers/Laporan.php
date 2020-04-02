@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class WFH extends CI_Controller
+class Laporan extends CI_Controller
 {
     public function __construct()
     {
@@ -18,28 +18,28 @@ class WFH extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('name')])->row_array();
         
         $data['pegawai'] = $this->modsEmployee->getUserData($data['user']['nip_pegawai']);
-        $data['absensi'] = $this->modsEmployee->getLaporanPegawai($data['user']['nip_pegawai']);
+        $data['absensi'] = $this->modsEmployee->getLaporan($data['user']['nip_pegawai']);
         
         $this->load->view('templates/header', $data); // untuk memanggil template header
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('wfh/absensi', $data);
+        $this->load->view('laporan/absensi', $data);
         $this->load->view('templates/footer', $data);
     }
 
     public function list() 
     {
-        $data['title'] = 'Input Laporan';
+        $data['title'] = 'List Laporan';
         $data['bc'] = $this->modul->getBreadcrumb($data['title']);
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('name')])->row_array();
         
         $data['pegawai'] = $this->modsEmployee->getUserData($data['user']['nip_pegawai']);
-        $data['laporan'] = $this->modsEmployee->getLaporanPegawai($data['user']['nip_pegawai']);
+        $data['laporan'] = $this->modsEmployee->getLaporan($data['user']['nip_pegawai']);
 
         $this->load->view('templates/header', $data); // untuk memanggil template header
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('wfh/list', $data);
+        $this->load->view('laporan/list', $data);
         $this->load->view('templates/footer', $data);
     }
 
@@ -59,7 +59,7 @@ class WFH extends CI_Controller
             $this->load->view('templates/header', $data); // untuk memanggil template header
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('wfh/input', $data);
+            $this->load->view('laporan/input', $data);
             $this->load->view('templates/footer', $data);
         }
         else {
@@ -68,6 +68,7 @@ class WFH extends CI_Controller
                 'nip_pegawai' => $data['pegawai']['nip_pegawai'],
                 'kehadiran' => 'Hadir',
                 'status_laporan' => '1',
+                'clockin' => date('Y-m-d H:i:s'),
                 'judul_kegiatan' => $this->input->post('judul'),
                 'uraian_kegiatan' => $this->input->post('uraiankegiatan'),
                 'kondisi_kesehatan' => $this->input->post('kondisi'),
@@ -95,6 +96,7 @@ class WFH extends CI_Controller
                         </div>
                     </div>');
             }
+            redirect('laporan/list');
         }
     }
 
@@ -105,16 +107,16 @@ class WFH extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('name')])->row_array();
         
         $data['pegawai'] = $this->modsEmployee->getUserData($data['user']['nip_pegawai']);
-        $data['laporan'] = $this->modsEmployee->getLaporanDivisi($data['user']['nip_pegawai']);
+        $data['laporan'] = $this->modsEmployee->getLaporanPegawai($data['user']['nip_pegawai']);
 
         $this->load->view('templates/header', $data); // untuk memanggil template header
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('wfh/approval', $data);
+        $this->load->view('laporan/approval', $data);
         $this->load->view('templates/footer', $data);
     }
 
-    public function approveLaporan($idLaporan)
+    public function approveLaporan($idLaporan,$nipapproval)
     {   
         if(isset($_POST['approve'])) { 
             $status = 2;
@@ -125,8 +127,8 @@ class WFH extends CI_Controller
 
         $data = [
             'status_laporan' => $status,
-            'approval_by' => $this->input->post('nip_approval'),
-            'approval_ts' => 'NOW()'
+            'approval_by' => $nipapproval,
+            'approval_ts' => date('Y-m-d H:i:s')
         ];
         
         if ($this->modsEmployee->updateLaporan($idLaporan,$data)) {
@@ -151,7 +153,7 @@ class WFH extends CI_Controller
                 </div>
             </div>');
         }
-        redirect('wfh/approval');
+        redirect('laporan/approval');
         
     }
     

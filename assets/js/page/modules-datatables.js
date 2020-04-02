@@ -28,8 +28,8 @@ exportButtons = [
     'copy','print',
     {
         extend: 'csv',
-        filename: now +" Penyaluran UMi",
-        title: "Penyaluran UMi"
+        filename: now +" Data Pegawai PIP",
+        title: "Data"
     }
 ];
 

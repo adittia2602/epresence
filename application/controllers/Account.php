@@ -8,7 +8,7 @@ class Account extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->model('Basic_mods', 'modul');
-
+        $this->load->model('Employee_mods', 'modsEmployee');
     }
     public function index()
     {
@@ -18,7 +18,7 @@ class Account extends CI_Controller
         $data['editing'] = 'd-none';
         $data['col'] = 'col-lg-7';
 
-
+        $data['pegawai'] = $this->modsEmployee->getUserData($data['user']['nip_pegawai']);
         $data['role'] = $this->db->get_where('user_role', ['id' =>  $data['user']['role_id']])->row_array();
 
         $this->load->view('templates/header', $data); // untuk memanggil template header

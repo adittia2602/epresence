@@ -96,6 +96,9 @@ class Auth extends CI_Controller
                                             $rules = array('is_unique' => 'This username has already taken! use another username.') //bikin notifikasi jika name sudah ada didatabase
         ); //membuat rule input username
         $this->form_validation->set_rules('email','Email','trim|valid_email');
+        $this->form_validation->set_rules('nip','nip','required|min_length[18]|max_length[18]',
+                                            $rules = array('min_length' => 'NIP harus 18 Digit Angka.', 'max_length' => 'NIP harus 18 Digit Angka.' )
+        );
         $this->form_validation->set_rules(
             'password',
             'Password',
@@ -115,8 +118,9 @@ class Auth extends CI_Controller
                 'fullname' => htmlspecialchars($this->input->post('name', true)),
                 'email' => htmlspecialchars($this->input->post('email', true)),
                 'image' => 'dflt.jpg',
+                'nip_pegawai' => htmlspecialchars($this->input->post('nip', true)),
                 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                'role_id' => 2,
+                'role_id' => 6,
                 'is_active' => 1,
                 'date_create' => $timestamp
             );

@@ -17,6 +17,14 @@
                 <?php endif; ?> <?= form_error('accesspublic', ''); ?> <?= $this->session->flashdata('message'); ?>
                 <form method="POST" action="<?php echo base_url('auth/registration'); ?>">
                   <div class="form-group">
+                    <label for="nip">NIP Pegawai</label>
+                    <input id="nip" type="text" class="form-control" name="nip">
+                    <div class="invalid-feedback">
+                        <?php echo form_error('nip', '<small class ="text-danger pl-3">', ' </small>'); ?>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
                     <label for="username">Username</label>
                     <input id="username" type="text" class="form-control" name="username">
                     <div class="invalid-feedback">
