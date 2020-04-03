@@ -78,10 +78,6 @@ class Employee_mods extends CI_Model
         if ($my){
             // Level Dirut : list laporan direksi
             if ($my['level'] === '1'){
-                // $query = "SELECT a.*, b.nama_pegawai FROM emp_laporan a, emp_pegawai b
-                //     WHERE a.nip_pegawai = b.nip AND 
-                //     a.nip_pegawai IN (SELECT nip_pegawai FROM emp_historyjabatan WHERE level = '2') 
-                //     ORDER BY reg_ts DESC";
                 $query = "SELECT a.*, b.nama_pegawai, b.divisi, b.direktorat, b.level FROM emp_laporan a, emp_historyjabatan b
                     WHERE a.nip_pegawai = b.nip_pegawai AND 
                     a.nip_pegawai IN (SELECT nip_pegawai FROM emp_historyjabatan WHERE nip_pegawai != '$nip') 
@@ -90,10 +86,6 @@ class Employee_mods extends CI_Model
             } 
             // Level Direktur : list laporan kadiv
             else if ($my['level'] === '2'){
-                // $query = "SELECT a.*, b.nama_pegawai FROM emp_laporan a, emp_pegawai b
-                //     WHERE a.nip_pegawai = b.nip AND 
-                //     a.nip_pegawai IN (SELECT nip_pegawai FROM emp_historyjabatan WHERE level = '".$lv."' AND direktorat = '".$my['direktorat']."') 
-                //     ORDER BY reg_ts DESC";
                 $query = "SELECT a.*, b.nama_pegawai , b.divisi, b.direktorat, b.level FROM emp_laporan a, emp_historyjabatan b
                 WHERE a.nip_pegawai = b.nip_pegawai AND
                     a.nip_pegawai IN (SELECT nip_pegawai FROM emp_historyjabatan WHERE direktorat = '".$my['direktorat']."' AND nip_pegawai != '$nip') 
