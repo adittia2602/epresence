@@ -21,8 +21,8 @@ class Home extends CI_Controller
         $data['absensi'] = $this->modsEmployee->getUserAbsence($data['user']['nip_pegawai']);
         
         // set jam pulang format 24jam
-        $time_clockout = 17;
-        $hour_now = date("H");
+        $time_clockout = "17:00";
+        $now = date("H:i");
 
         $absensi = $data['absensi'];
         $data['todayabsen'] = 0; 
@@ -36,10 +36,10 @@ class Home extends CI_Controller
             $data['col_list'] = '12';
         }
         
-        // Box Clock OUT: kalo sudah absen hari ini & dia clock in & jam > 17:00 & belum clockout
+        // Box Clock OUT: kalo sudah absen hari ini & dia clock in & jam >= 17:00 & belum clockout
         $data['box_clockout'] = '';
         if ( isset($absensi[0]['kehadiran']) && $absensi[0]['tgl'] == date('Y-m-d') && $absensi[0]['kehadiran'] == 'Hadir' 
-            && empty($absensi[0]['clockout']) && $hour_now >= $time_clockout )
+            && empty($absensi[0]['clockout']) && strtotime($now) >= strtotime($time_clockout) )
         {
             $data['box_clockout'] = '
             <div class="col-md-4 ">
@@ -60,7 +60,7 @@ class Home extends CI_Controller
 
         // Box Notif  : kalo sudah absen & jam < 17:00 & dia clock in 
         $data['box_notif'] = '';
-        if ( isset($absensi[0]['kehadiran']) && $absensi[0]['tgl'] == date('Y-m-d') && $hour_now < $time_clockout && $absensi[0]['kehadiran'] == 'Hadir')
+        if ( isset($absensi[0]['kehadiran']) && $absensi[0]['tgl'] == date('Y-m-d') && strtotime($now) < strtotime($time_clockout) && $absensi[0]['kehadiran'] == 'Hadir')
         {
             $data['box_notif'] = '
                 <div class="col-md-4">
@@ -70,7 +70,7 @@ class Home extends CI_Controller
                                 <p class="text-center" style="color: red;">
                                     Anda sudah melakukan <br/>
                                     <b>Clock IN</b> hari ini. <br/> <br/> 
-                                    Silahkan lakukan <b>Clock OUT pada pukul '. $time_clockout.':00 </b>
+                                    Silahkan lakukan <b>Clock OUT pada pukul '. $time_clockout.' </b>
                                 </p>
                             </div>
                         </div>
