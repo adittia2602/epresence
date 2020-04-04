@@ -13,12 +13,12 @@
                         <div class="card-body">
                             <form class = "form-horizontal col-md-6  offset-md-6" action="<?= base_url('kepegawaian/absensi'); ?>" method="post" enctype="multipart/form-data">
                                 <div class="form-group row">
-                                    <label for="cod" class="col-sm-12 col-md-4 col-form-label">Tanggal : </label>
-                                    <div class="col-md-6 col-sm-12">
+                                    <label for="cod" class="col-sm-12 col-md-3 col-form-label">Tanggal : </label>
+                                    <div class="col-md-7 col-sm-12">
                                         <input type="date" class="form-control" id="cod" name="cod" value="<?= $cod; ?>">
                                     </div>
                                     <div class="col-md-2 col-sm-12">
-                                        <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-md">Filter</button>
                                     </div>
                                 </div>
                                 

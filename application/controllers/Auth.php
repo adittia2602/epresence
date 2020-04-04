@@ -49,7 +49,12 @@ class Auth extends CI_Controller
                         'role_id' => $user['role_id']
                     ];
                     $this->session->set_userdata($data);
-                    redirect('account');
+                    
+                    if ($data['role_id'] == 1 || $data['role_id'] == 7){
+                        redirect('account');
+                    } else {
+                        redirect('home/absensi');
+                    }
                 } 
                 else {
                     $this->session->set_flashdata('message',

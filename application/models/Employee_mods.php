@@ -157,7 +157,7 @@ class Employee_mods extends CI_Model
             $result = $this->db->query($query)->result_array();
         } else {
             // Administrator
-            $result = $this->getAllLaporan();
+            $result = $this->getAllAbsence($tgl);
         }
         return $result;
     }
