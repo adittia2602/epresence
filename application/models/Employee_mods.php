@@ -115,16 +115,16 @@ class Employee_mods extends CI_Model
         return $result;
     }
 
-    public function getAllAbsence($tgl)
+    public function getAllAbsence($tglawal,$tglakhir)
     {
         $query = "SELECT a.*, b.*,  date(a.reg_ts) as tgl, time(a.clockin) as t_clockin, time(a.clockout) as t_clockout 
                     FROM emp_absensi a, emp_historyjabatan b
-                    WHERE b.status = '1' AND date(a.reg_ts) = '".$tgl."'AND a.nip_pegawai = b.nip_pegawai
+                    WHERE b.status = '1' AND date(a.reg_ts) >= '".$tglawal."' AND date(a.reg_ts) <= '".$tglakhir."'AND a.nip_pegawai = b.nip_pegawai
                     ORDER BY reg_ts DESC";
         return $this->db->query($query)->result_array();
     }
 
-    public function getAbsencePegawai($nip,$tgl)
+    public function getAbsencePegawai($nip,$tglawal,$tglakhir)
     {
         $query_user = "SELECT * FROM emp_historyjabatan where nip_pegawai = '$nip' AND status = '1' ";
         $my = $this->db->query($query_user)->row_array();
@@ -133,7 +133,7 @@ class Employee_mods extends CI_Model
             if ($my['level'] === '1'){
                 $query = "SELECT a.*, b.*,  date(a.reg_ts) as tgl, time(a.clockin) as t_clockin, time(a.clockout) as t_clockout 
                         FROM emp_absensi a, emp_historyjabatan b
-                        WHERE date(a.reg_ts) = '".$tgl."' AND status = 1
+                        WHERE date(a.reg_ts) >= '".$tglawal."' AND date(a.reg_ts) <= '".$tglakhir."' AND status = 1
                         AND a.nip_pegawai IN (SELECT nip_pegawai FROM emp_historyjabatan WHERE level > '".$my['level']."' AND status = 1) 
                         AND a.nip_pegawai = b.nip_pegawai 
                         ORDER BY reg_ts DESC";
@@ -141,7 +141,7 @@ class Employee_mods extends CI_Model
             else if ($my['level'] === '2') {
                 $query = "SELECT a.*, b.*,  date(a.reg_ts) as tgl, time(a.clockin) as t_clockin, time(a.clockout) as t_clockout 
                             FROM emp_absensi a, emp_historyjabatan b
-                            WHERE date(a.reg_ts) = '".$tgl."' AND status = 1
+                            WHERE date(a.reg_ts) >= '".$tglawal."' AND date(a.reg_ts) <= '".$tglakhir."' AND status = 1
                             AND a.nip_pegawai IN (SELECT nip_pegawai FROM emp_historyjabatan WHERE direktorat = '".$my['direktorat']."' AND nip_pegawai != '$nip' AND status = 1 ) 
                             AND a.nip_pegawai = b.nip_pegawai 
                             ORDER BY reg_ts DESC"; 
@@ -149,7 +149,7 @@ class Employee_mods extends CI_Model
             else if ($my['level'] === '3') {
                 $query = "SELECT a.*, b.*,  date(a.reg_ts) as tgl, time(a.clockin) as t_clockin, time(a.clockout) as t_clockout 
                             FROM emp_absensi a, emp_historyjabatan b
-                            WHERE date(a.reg_ts) = '".$tgl."' AND status = 1
+                            WHERE date(a.reg_ts) >= '".$tglawal."' AND date(a.reg_ts) <= '".$tglakhir."' AND status = 1
                             AND a.nip_pegawai IN (SELECT nip_pegawai FROM emp_historyjabatan WHERE id_divisi = '".$my['id_divisi']."' AND nip_pegawai != '$nip' AND status = 1 ) 
                             AND a.nip_pegawai = b.nip_pegawai 
                             ORDER BY reg_ts DESC"; 
@@ -157,7 +157,7 @@ class Employee_mods extends CI_Model
             $result = $this->db->query($query)->result_array();
         } else {
             // Administrator
-            $result = $this->getAllAbsence($tgl);
+            $result = $this->getAllAbsence($tglawal,$tglakhir);
         }
         return $result;
     }

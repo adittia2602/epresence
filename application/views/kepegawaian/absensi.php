@@ -10,29 +10,35 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-body">
-                            <form class = "form-horizontal col-md-6  offset-md-6" action="<?= base_url('kepegawaian/absensi'); ?>" method="post" enctype="multipart/form-data">
-                                <div class="form-group row">
-                                    <label for="cod" class="col-sm-12 col-md-3 col-form-label">Tanggal : </label>
-                                    <div class="col-md-7 col-sm-12">
-                                        <input type="date" class="form-control" id="cod" name="cod" value="<?= $cod; ?>">
+                        <div class="card-body row">
+                            <div class="col-md-6 offset-6">
+                                <form class = "form-horizontal " action="<?= base_url('kepegawaian/absensi'); ?>" method="post" enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="cod_awal">Tanggal Awal: </label>
+                                        <input type="date" class="form-control" id="cod_awal" name="cod_awal" value="<?= $cod_awal; ?>">
                                     </div>
-                                    <div class="col-md-2 col-sm-12">
-                                        <button type="submit" class="btn btn-primary btn-md">Filter</button>
+                                    <div class="form-group col-md-6">
+                                        <label for="cod_akhir">Tanggal Akhir: </label>
+                                        <input type="date" class="form-control" id="cod_akhir" name="cod_akhir" value="<?= $cod_akhir; ?>">
+                                    </div>
+                                    <div class="form-group col-md-6 offset-6">
+                                        <button type="submit" class="btn btn-primary btn-md col-md-12">Filter</button>
                                     </div>
                                 </div>
-                                
-                            </form>
+                                </form>
+                            </div>
+
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable">
                                     <thead>
                                         <tr class="text-center">
                                             <th>#</th>
+                                            <th>TANGGAL</th>
                                             <th>NAMA</th>
-                                            <th>DIREKTORAT</th>
-                                            <th>DIVISI</th>
                                             <th>KEHADIRAN</th>
                                             <th>KONDISI</th>
+                                            <th>URAIAN KONDISI</th>
                                             <th>CLOCK IN</th>
                                             <th>CLOCK OUT</th>
                                         </tr>
@@ -43,12 +49,12 @@
                                                 <td class="text-center">
                                                     <?= $i ?>
                                                 </td>
+                                                <td><?= $a['tgl']; ?></td>
                                                 <td><?= $a['nama_pegawai']; ?></td>
-                                                <td><?= $a['direktorat']; ?></td>
-                                                <td><?= $a['divisi']; ?></td>
                                                 <!-- <td class="text-center"><?= $a['nip_pegawai']; ?></td> -->
                                                 <td><?= $a['kehadiran'];?> </td>
                                                 <td><?= $k = $a['kondisi_kesehatan'] === "-" ? $a['keterangan'] : $a['kondisi_kesehatan'] ;?> </td>
+                                                <td><?= $a['uraian_kondisi_kesehatan']; ?></td>
                                                 <td><?= $a['t_clockin'];?> </td>
                                                 <td><?= $a['t_clockout'];?> </td>
                                             </tr>
