@@ -88,13 +88,32 @@ class Home extends CI_Controller
 
     public function absenhadir($userid, $nip)
     {
+        $now = date('H:i:s');
+        
+        // TL 1  
+        if( strtotime($now) > strtotime('07:30:00') && strtotime($now) < strtotime('08:00:00') ) {
+            $ket = "Hadir";
+        } 
+        else if( strtotime($now) > strtotime('08:00:00') && strtotime($now) < strtotime('08:30:00') ) {
+            $ket = "TL 2";
+        } 
+        else if( strtotime($now) > strtotime('08:30:00') && strtotime($now) < strtotime('09:00:00') ) {
+            $ket = "TL 3";
+        } 
+        else if( strtotime($now) > strtotime('09:00:00') ) {
+            $ket = "TL 4";
+        } 
+        else {
+            $ket = "Hadir";
+        }
+
         $data = [
             'id' => time(),
             'user_id' => $userid,
             'nip_pegawai' => $nip,
             'clockin' => date('Y-m-d H:i:s'),
             'kehadiran' => 'Hadir',
-            'keterangan' => 'Hadir',
+            'keterangan' => $ket,
             'kondisi_kesehatan' => $this->input->post('kondisi'),
             'uraian_kondisi_kesehatan' => $this->input->post('uraiankondisi'),
         ];

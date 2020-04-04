@@ -51,9 +51,8 @@
                                                 </td>
                                                 <td><?= $a['tgl']; ?></td>
                                                 <td><?= $a['nama_pegawai']; ?></td>
-                                                <!-- <td class="text-center"><?= $a['nip_pegawai']; ?></td> -->
                                                 <td><?= $a['kehadiran'];?> </td>
-                                                <td><?= $k = $a['kondisi_kesehatan'] === "-" ? $a['keterangan'] : $a['kondisi_kesehatan'] ;?> </td>
+                                                <td><?= $a['kondisi_kesehatan'];?> </td>
                                                 <td><?= $a['uraian_kondisi_kesehatan']; ?></td>
                                                 <td><?= $a['t_clockin'];?> </td>
                                                 <td><?= $a['t_clockout'];?> </td>

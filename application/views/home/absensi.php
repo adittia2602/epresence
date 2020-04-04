@@ -38,7 +38,7 @@
                                             <td><?= $a['t_clockin'] ?></td>
                                             <td><?= $a['t_clockout']; ?></td>
                                             <td><?= $a['kondisi_kesehatan']; ?></td>
-                                            <td><?= $a['kehadiran']; ?></td>
+                                            <td><?= $a['keterangan']; ?></td>
                                         </tr>
                                         <?php $i++; endforeach;?>
                                     </tbody>
