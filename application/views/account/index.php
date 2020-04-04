@@ -14,7 +14,7 @@
                     <div class="author-box-left">
                       <img alt="image" src="<?= base_url("assets/")?>/img/avatar/avatar-1.png" class="rounded-circle author-box-picture">
                       <div class="clearfix"></div>
-                      <!-- <a href="<?= base_url('account/edit');?>" class="btn btn-primary mt-3" >Edit User</a> -->
+                      <a href="<?= base_url('account/edit');?>" class="btn btn-primary mt-3" >Edit User</a>
                     </div>
                     <div class="author-box-details">
                       <div class="author-box-name">
@@ -62,7 +62,7 @@
                     <div class="card-body">
                       <div class="form-group">
                           <label class="control-label">Username</label>
-                          <input type="text" disabled class="form-control" value="<?= $user['name']?>">
+                          <input type="text" disabled class="form-control" value="<?= $user['username']?>">
                       </div>
 
                       <div class="form-group">

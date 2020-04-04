@@ -19,20 +19,6 @@
                                         <div class="col-3 text-left"> Waktu </div>  <div class="col-8 text-left">: <?= date("Y-m-d")?> </div>
                                     </div>
                                     
-                                    <div class="form-group ">
-                                        <label class="control-label" for="kondisi">Kondisi Kesehatan : </label>
-                                        <select name="kondisi" id="kondisi" class="form-control form-control-lg">
-                                            <option value="sehat" selected> Sehat </option>
-                                            <option value="kurang sehat"> Kurang Sehat </option>
-                                            <option value="tidak sehat"> Tidak Sehat </option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="uraiankondisi">Uraian Kondisi Kesehatan :  </label>
-                                        <input id="uraiankondisi" type="text" class="form-control" name="uraiankondisi">
-                                    </div>
-
                                     <div class="form-group">
                                         <label for="judul">Judul Kegiatan : </label>
                                         <input id="judul" type="text" class="form-control" name="judul">

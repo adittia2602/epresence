@@ -23,7 +23,6 @@
                                             #
                                             </th>
                                             <th>TANGGAL</th>
-                                            <th>KONDISI KESEHATAN</th>
                                             <th>JUDUL KEGIATAN</th>
                                             <?php if ($pegawai['level'] != '1') : ?>
                                             <th>STATUS</th>
@@ -39,7 +38,6 @@
                                             <?= $i ?>
                                             </td>
                                             <td><?= $a['reg_ts'] ?></td>
-                                            <td><?= $a['kondisi_kesehatan']; ?></td>
                                             <td><?= $a['judul_kegiatan']; ?></td>
 
                                             <?php if ($pegawai['level'] != '1') : ?>
@@ -119,17 +117,6 @@
                                     ?>
                                 </div>
                                 <?php  endif;?>
-                            </div>
-                            
-                            <div class="form-group ">
-                                <label class="control-label" for="kondisi">Kondisi Kesehatan : </label>
-                                <input id="uraiankondisi" type="text" class="form-control" name="uraiankondisi" value="<?= $sm['kondisi_kesehatan'];?>" disabled>
-                                
-                            </div>
-
-                            <div class="form-group">
-                                <label for="uraiankondisi">Uraian Kondisi Kesehatan :  </label>
-                                <input id="uraiankondisi" type="text" class="form-control" name="uraiankondisi" value="<?= $sm['uraian_kondisi_kesehatan'];?>" disabled>
                             </div>
 
                             <div class="form-group">

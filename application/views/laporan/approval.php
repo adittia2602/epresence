@@ -36,7 +36,6 @@
                                             <th>DIVISI</th>
                                             <?php endif;?>
                                             <th>NAMA PEGAWAI</th>
-                                            <th>KONDISI KESEHATAN</th>
                                             <th>JUDUL KEGIATAN</th>
                                             <th>STATUS</th>
                                             <th>ACTION</th>
@@ -56,7 +55,6 @@
                                             <td><?= $a['divisi']; ?></td>
                                             <?php endif;?>
                                             <td><?= $a['nama_pegawai']; ?></td>
-                                            <td><?= $a['kondisi_kesehatan']; ?></td>
                                             <td><?= $a['judul_kegiatan']; ?></td>
                                             <td>
                                                 <?php 
@@ -105,7 +103,7 @@
                         <div class="modal-body">
                             <div class="row mb-5">
                                 <div class="col-3 text-left"> Nama </div>  <div class="col-8 text-left">: <b><?= $sm['nama_pegawai']?></b> </div>
-                                <div class="col-3 text-left"> Jabatan </div>  <div class="col-8 text-left">:  <?= $sm ['divisi']?></div>
+                                <div class="col-3 text-left"> Divisi </div>  <div class="col-8 text-left">:  <?= $sm ['divisi']?></div>
                                 <div class="col-3 text-left"> Waktu Pelaporan </div>  <div class="col-8 text-left">: <?= $sm['reg_ts']?> </div>
                                 <div class="col-3 text-left"> Status </div>   
                                     <?php 
@@ -140,20 +138,8 @@
                                             Reject
                                         </button>
                                     </div>
-                                    
                                 </form>
                             <?php endif; ?>
-
-                            
-                            <div class="form-group ">
-                                <label class="control-label" for="kondisi">Kondisi Kesehatan : </label>
-                                <input id="uraiankondisi" type="text" class="form-control" name="uraiankondisi" value="<?= $sm['kondisi_kesehatan'];?>" disabled>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="uraiankondisi">Uraian Kondisi Kesehatan :  </label>
-                                <input id="uraiankondisi" type="text" class="form-control" name="uraiankondisi" value="<?= $sm['uraian_kondisi_kesehatan'];?>" disabled>
-                            </div>
 
                             <div class="form-group">
                                 <label for="judul">Judul Kegiatan : </label>

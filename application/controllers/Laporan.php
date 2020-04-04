@@ -18,7 +18,7 @@ class Laporan extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('name')])->row_array();
         
         $data['pegawai'] = $this->modsEmployee->getUserData($data['user']['nip_pegawai']);
-        $data['laporan'] = $this->modsEmployee->getLaporan($data['user']['nip_pegawai']);
+        $data['laporan'] = $this->modsEmployee->getUserLaporan($data['user']['nip_pegawai']);
 
         $this->load->view('templates/header', $data); // untuk memanggil template header
         $this->load->view('templates/sidebar', $data);
@@ -32,7 +32,7 @@ class Laporan extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('name')])->row_array();
         $data['pegawai'] = $this->modsEmployee->getUserData($data['user']['nip_pegawai']);
 
-        $this->form_validation->set_rules('kondisi', 'kondisi', 'required');
+        $this->form_validation->set_rules('judul', 'judul', 'required');
         $this->form_validation->set_rules('uraiankegiatan', 'uraiankegiatan', 'required');
 
         if ($this->form_validation->run() == false) {
@@ -49,20 +49,24 @@ class Laporan extends CI_Controller
         else {
             if ($data['pegawai']['level'] == 1){
                 $status = '2';
+                $approvalby = $data['user']['nip_pegawai'];
+                $approvalts = date('Y-m-d H:i:s');
             } else {
                 $status = '1';
+                $approvalby = '';
+                $approvalts = '';
             }
 
             $data = [
                 'user_id' => $data['user']['id'],
                 'nip_pegawai' => $data['pegawai']['nip_pegawai'],
                 'kehadiran' => 'Hadir',
-                'status_laporan' => $status,
                 'reg_ts' => date('Y-m-d H:i:s'),
                 'judul_kegiatan' => $this->input->post('judul'),
                 'uraian_kegiatan' => $this->input->post('uraiankegiatan'),
-                'kondisi_kesehatan' => $this->input->post('kondisi'),
-                'uraian_kondisi_kesehatan' => $this->input->post('uraiankondisi'),
+                'status_laporan' => $status,
+                'approval_by' => $approvalby,
+                'approval_ts' => $approvalts
             ];
 
             if ($this->modsEmployee->inputLaporan($data)){

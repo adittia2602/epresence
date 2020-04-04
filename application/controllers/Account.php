@@ -36,6 +36,8 @@ class Account extends CI_Controller
         $data['role'] = $this->db->get_where('user_role', ['id' =>  $data['user']['role_id']])->row_array();
         $data['editing'] = 'd-block';
         $data['col'] = 'col-lg-5';
+        $data['pegawai'] = $this->modsEmployee->getUserData($data['user']['nip_pegawai']);
+        $data['role'] = $this->db->get_where('user_role', ['id' =>  $data['user']['role_id']])->row_array();
 
 
         $this->form_validation->set_rules('email','Email','trim|valid_email');
