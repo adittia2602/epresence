@@ -50,13 +50,11 @@ class Employee_mods extends CI_Model
         if ($my){
             // Level Dirut : List Direksi
             if ($my['level'] === '1'){
-                // $query = "SELECT * FROM emp_historyjabatan WHERE level = '".$lv."' ";
-                $query = "SELECT * FROM emp_historyjabatan ";
+                $query = "SELECT * FROM emp_historyjabatan ORDER BY ";
                 $result = $this->db->query($query)->result_array();
             } 
             // Level Direktur : list Kadiv
             else if ($my['level'] === '2'){
-                // $query = "SELECT * FROM emp_historyjabatan WHERE level = '".$lv."' AND direktorat = '".$my['direktorat']."' ";
                 $query = "SELECT * FROM emp_historyjabatan WHERE direktorat = '".$my['direktorat']."' ";
                 $result = $this->db->query($query)->result_array();
             }
@@ -70,10 +68,6 @@ class Employee_mods extends CI_Model
             $result = $this->getAllPegawai();
         }
         return $result;
-        //  ---------------------------------------------------------------------------
-        $query = "SELECT * FROM emp_historyjabatan ORDER BY id_jabatan";
-
-        return $this->db->query($query)->result_array();
     }
 
     public function getAllLaporan()

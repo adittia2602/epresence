@@ -37,9 +37,6 @@ class Kepegawaian extends CI_Controller
         $cod_akhir = $this->input->post('cod_akhir');   
         $data['cod_akhir'] = isset($cod_akhir) ? $cod_akhir : date("Y-m-d"); 
         $data['cod_awal'] = isset($cod_awal) ? $cod_awal : date("Y-m-d"); 
-        $data['pegawai'] = $this->modsEmployee->getDataPegawai($data['user']['nip_pegawai']);
-
-
         $data['absensi'] = $this->modsEmployee->getAbsencePegawai($data['user']['nip_pegawai'],$data['cod_awal'],$data['cod_akhir']);
 
         $this->load->view('templates/header', $data); // untuk memanggil template header
