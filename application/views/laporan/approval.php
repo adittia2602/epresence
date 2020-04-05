@@ -146,10 +146,18 @@
                                 <input id="judul" type="text" class="form-control" name="judul" value="<?= $sm['judul_kegiatan'];?>" disabled>
                             </div>
 
+                            <?php if ($sm['file_upload'] != '') : ?>
+                            <div class="form-group">
+                                <label for="filelaporan">File Attachment :  </label>
+                                <a  class="" href="<?php echo base_url().'laporan/download/'.$sm['id']?>"><?= $sm['file_upload'];?></a>
+                            </div>
+                            <?php  endif;?>
+
                             <div class="form-group">
                                 <label for="uraiankegiatan">Uraian Kegiatan :  </label>
                                 <textarea class="form-control" id="uraiankegiatan" name="uraiankegiatan" rows="30" style="height: 300px;" disabled><?= $sm['uraian_kegiatan'];?></textarea>
                             </div>
+                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

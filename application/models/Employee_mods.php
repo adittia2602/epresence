@@ -27,6 +27,13 @@ class Employee_mods extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    public function getFileLaporan($id)
+    {
+        $query = "SELECT * FROM emp_laporan where id = '$id' ";
+
+        return $this->db->query($query)->row_array();
+    }
+
     public function getAllPegawai()
     {
         $query = "SELECT * FROM emp_historyjabatan WHERE status = '1' ORDER BY id_jabatan ";
@@ -186,6 +193,13 @@ class Employee_mods extends CI_Model
     {
         $this->db->where('id', $idLaporan);
         $result = $this->db->update('emp_laporan', $data);
+        return $result;
+    }
+
+    public function deleteLaporan($idLaporan)
+    {
+        $this->db->where('id', $idLaporan);
+        $result = $this->db->delete('emp_laporan');
         return $result;
     }
 

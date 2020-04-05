@@ -32,14 +32,13 @@ class Laporan extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('name')])->row_array();
         $data['pegawai'] = $this->modsEmployee->getUserData($data['user']['nip_pegawai']);
 
-        $this->form_validation->set_rules('judul', 'judul', 'required');
-        $this->form_validation->set_rules('uraiankegiatan', 'uraiankegiatan', 'required');
+        $this->form_validation->set_rules('judul', 'judul Kegiatan', 'required');
+        $this->form_validation->set_rules('uraiankegiatan', 'uraian Kegiatan', 'required');
 
         if ($this->form_validation->run() == false) {
             $data['title'] = 'Input Laporan';
             $data['bc'] = $this->modul->getBreadcrumb($data['title']);
             
-
             $this->load->view('templates/header', $data); // untuk memanggil template header
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
@@ -47,6 +46,7 @@ class Laporan extends CI_Controller
             $this->load->view('templates/footer', $data);
         }
         else {
+            // set default status , approval colomn for dirut 
             if ($data['pegawai']['level'] == 1){
                 $status = '2';
                 $approvalby = $data['user']['nip_pegawai'];
@@ -57,6 +57,35 @@ class Laporan extends CI_Controller
                 $approvalts = '';
             }
 
+            // handling file attachment
+            if (!empty($_FILES['file_attach'])) {
+                $config['upload_path']   = FCPATH . '/upload/laporan/';
+                $config['allowed_types'] = '*';
+                $config['max_size']      = '2048';
+                $config['remove_spaces'] = 'true';
+
+                $this->load->library('upload', $config);
+                
+                if (!$this->upload->do_upload('file_attach') && $_FILES['file_attach']['error'] != 4) {
+                    $this->session->set_flashdata('message',
+                    '<div class="alert alert-danger alert-dismissible show fade">
+                        <div class="alert-body">
+                            <button class="close" data-dismiss="alert">
+                                <span>&times;</span>
+                            </button>
+                            '.$this->upload->display_errors().'
+                        </div>
+                        
+                    </div>');
+                    redirect('laporan/input');
+                }
+                else {
+                   $data['file_attach'] = $this->upload->data('file_name');
+                    $this->upload->initialize($config);
+                }
+            }
+
+            // set data, insert laporan to DB
             $data = [
                 'user_id' => $data['user']['id'],
                 'nip_pegawai' => $data['pegawai']['nip_pegawai'],
@@ -66,9 +95,11 @@ class Laporan extends CI_Controller
                 'uraian_kegiatan' => $this->input->post('uraiankegiatan'),
                 'status_laporan' => $status,
                 'approval_by' => $approvalby,
-                'approval_ts' => $approvalts
-            ];
+                'approval_ts' => $approvalts,
+                'file_upload' => $data['file_attach']
 
+            ];
+        
             if ($this->modsEmployee->inputLaporan($data)){
                 $this->session->set_flashdata('message',
                     '<div class="alert alert-success alert-dismissible show fade">
@@ -135,8 +166,8 @@ class Laporan extends CI_Controller
                     Laporan Approved!
                 </div>
             </div>');
-
-        } else {
+        } 
+        else {
             $this->session->set_flashdata('message',
             '<div class="alert alert-success alert-dismissible show fade">
                 <div class="alert-body">
@@ -148,6 +179,44 @@ class Laporan extends CI_Controller
             </div>');
         }
         redirect('laporan/approval');
+    }
+
+    public function deleteLaporan($idLaporan)
+    {
+        $laporan = $this->db->get_where('emp_laporan', ['id' => $idLaporan])->row_array();
+        if ($this->modsEmployee->deleteLaporan($idLaporan)) {
+            $this->session->set_flashdata('message',
+            '<div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    Laporan: '.$laporan['judul_kegiatan'].' berhasil di Hapus
+                </div>
+            </div>');
+
+            unlink(FCPATH . 'upload/laporan/'.$laporan['file_upload']);
+        } 
+        else {
+            $this->session->set_flashdata('message',
+            '<div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+                    <?= $this->db->_error_message(); ?>
+                </div>
+            </div>');
+        }
+        redirect('laporan/list');
+    }
+
+    public function download($id) 
+    {   
+        $this->load->helper('download');
+        $fileinfo = $this->modsEmployee->getFileLaporan($id);
+        $file = FCPATH . '/upload/laporan/'.$fileinfo['file_upload'];
+        force_download($file, NULL);
     }
     
 }

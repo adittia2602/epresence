@@ -60,9 +60,11 @@
                                                     { $badge =  'warning'; }
                                                     else if ($a['status_laporan'] === '0') 
                                                         { $badge =  'danger'; } 
-                                                        
                                                 ?>
                                                 <a href="" class="badge badge-<?= $badge;?>" data-toggle="modal" data-target="#viewLaporan<?=$a['id'];?>">Lihat Laporan</a>
+                                                <?php if ( $a['status_laporan'] === '1' ) : ?>
+                                                <a href="<?= base_url("laporan/deleteLaporan/".$a['id']);?>" class="badge badge-danger"  onclick="return confirm('apakah anda yakin akan menghapus Laporan: <?= $a['judul_kegiatan']; ?> ?')">Delete</a>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                         <?php $i++; endforeach;?>
@@ -76,7 +78,7 @@
         </section>
       </div>
 
-      <!-- Modal Edit -->
+      <!-- Modal View -->
     <?php foreach ($laporan as $sm) : ?>
         <div class="modal fade" id="viewLaporan<?=$sm['id'];?>" tabindex="-1" role="dialog" aria-labelledby="viewLaporanTitle" aria-hidden="true">
             <div class="modal-dialog  modal-lg" role="document">
@@ -123,11 +125,20 @@
                                 <label for="judul">Judul Kegiatan : </label>
                                 <input id="judul" type="text" class="form-control" name="judul" value="<?= $sm['judul_kegiatan'];?>" disabled>
                             </div>
+                            
+                            <?php if ($sm['file_upload'] != '') : ?>
+                            <div class="form-group">
+                                <label for="filelaporan">File Attachment :  </label>
+                                <a  class="" href="<?php echo base_url().'laporan/download/'.$sm['id']?>"><?= $sm['file_upload'];?></a>
+                            </div>
+                            <?php  endif;?>
 
                             <div class="form-group">
                                 <label for="uraiankegiatan">Uraian Kegiatan :  </label>
                                 <textarea class="form-control" id="uraiankegiatan" name="uraiankegiatan" rows="30" style="height: 500px;" disabled><?= $sm['uraian_kegiatan'];?></textarea>
                             </div>
+
+                            
 
                         </div>
                         <div class="modal-footer">
